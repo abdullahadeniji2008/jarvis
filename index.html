@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JARVIS - Virtual Assistant</title>
-    <link rel="shortcut icon" href="blackgoose.gif" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Required Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script> <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script> <!-- Mammoth.js for DOCX -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script> <!-- SheetJS for Excel files -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.1"></script> <!-- Tesseract.js for OCR -->
     <style>
         /* Reset some basic styling */
         * {
@@ -15,27 +19,31 @@
             font-family: 'Roboto', sans-serif;
         }
 
-        /* Body styling */
         body {
-            height: 100vh;
             background: linear-gradient(135deg, #1c1c1c, #333);
             color: #f0f0f0;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            height: 100vh;
+            font-family: 'Roboto', sans-serif;
         }
-
-        /* Main section styling */
         .main {
-            width: 400px;
+            width: 600px;
             text-align: center;
             padding: 30px;
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .file-upload, .manual-input, .input, .answer {
+            margin-top: 20px;
+        }
+        .file-upload input, .manual-input input, .manual-input button {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px;
         }
 
         /* Image container and icon styling */
@@ -53,14 +61,14 @@
         }
 
         /* Animation for rotating image */
-        @keyframes rotate {
+        /* @keyframes rotate {
             0% {
                 transform: rotate(0deg);
             }
             100% {
                 transform: rotate(360deg);
             }
-        }
+        } */
 
         /* Title and description styling */
         h1 {
@@ -83,15 +91,13 @@
 
         /* Talk button styling */
         .talk {
-            background: #ff4081;
-            color: white;
             font-size: 1.5rem;
-            border: none;
             padding: 15px;
             border-radius: 50%;
+            background-color: #ff4081;
+            color: white;
+            border: none;
             cursor: pointer;
-            outline: none;
-            transition: background 0.3s ease;
         }
 
         .talk:hover {
@@ -179,7 +185,19 @@
             border-radius: 10px;
         }
 
-        
+          /* Styles for the new upload input */
+          .ocr-upload {
+            margin-top: 20px;
+        }
+
+        .ocr-upload input[type="file"] {
+            padding: 10px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
     </style>
 </head>
@@ -198,18 +216,25 @@
         </div>
 
             <!-- Add this just before the closing </section> -->
-    <div class="manual-input">
-        <input type="text" id="user-input" placeholder="Type your command here...">
-        <button id="submit-btn">Submit</button>
-    </div>
+        <div class="manual-input">
+            <input type="text" id="user-input" placeholder="Type your command here...">
+            <button id="submit-btn">Submit</button>
+        </div>
 
-    <!-- New section for displaying answers -->
-    <section class="answer" id="answer-display">
-        The answer will be displayed here.
-    </section>
+        <!-- New section for displaying answers -->
+        <section class="answer" id="answer-display">
+            The answer will be displayed here.
+        </section>
+
+        <!-- File Upload Section -->
+        <div class="file-upload">
+            <input type="file" id="file-input" accept=".pdf,.docx,.txt,image/*">
+        </div>
 
     </section>
 
     <script src="app.js"></script>
 </body>
 </html>
+
+
